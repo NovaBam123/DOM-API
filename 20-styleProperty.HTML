@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTMLElement: Style Property</title>
+    <!--  
+    Property style pada objek HTMLElement adalah property read-only yang mengembalikan gaya inline dari sebuah elemen dalam bentuk objek "CSSStyleDeclaration". 
+    Objek ini berisi semua property style utk element tersebut dg nilai yg ditetapkan untuk attribut yg didefinsikan dalam attribut inline.    
+    a). Property read-only
+    b). ekspansi property shorthand
+    c). Pengaturan inline style
+
+    CONTOH PENGGUNAAN: 
+    const element= document.getElementById("myElement");
+    element.style= "color: blue; background-color: yellow"
+    cara ini akan menimpa semua gaya inline yg ada pada element.
+    -gaya specifik tanpa mengubah gaya lainnya:
+    element.style.backgroundColor= "red"
+    element.style.fontSize= "16px"
+
+    Urutan prioritas CSS(CSS cascade) dari yang tertinggi ke yang terendah adalah:
+    1). Inline Style dan properti style dalam JavaScript.
+    2). Internal Stylesheet.
+    3). External Stylesheet.
+    4). Browser Default Styles.
+    ParentNode.children
+    Node.parentNode
+    Node.nextElementSibling
+    -->
+</head>
+<body style="font-weight:bold">
+    <div style="border-top:1px solid blue; color: red" id="elt">An Example div</div>  
+    <pre id="out"></pre>
+
+<script>
+    const element=document.getElementById("elt");
+    const out= document.getElementById("out")
+    const elementStyle= element.style
+    for(const prop in elementStyle){
+        if(Object.hasOwn(elementStyle, prop) && !Number.isNaN(Number.parseInt(prop))){
+            out.textContent+= `${elementStyle[prop]}= ${elementStyle.getPropertyValue(elementStyle[prop])}\n`;
+        }
+    }
+</script>    
+</body>
+</html>

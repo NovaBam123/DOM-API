@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Element By Id</title>
+    <!--  
+    Method interface dari document yang mengembalikan object "element" yg mewakili elemen dg properti id yg cocok dengan string yng ditentukan.
+    -id element harus unik dan tidak boleh sama.
+    -method ini akan mencari elemen HTML yg memilik attribut "id" jika tidak ditemukan akan null.
+    -bersifat case sensitif.
+    -untuk parameter fungsi dlm komponent digunakan tanda single quote(' ')
+    Syntax:
+    getElementById(id)
+    KETERBATASAN PENGGUNAAN:
+    - hanya ada pada object document global.
+    - saat membuat element dan memberikannya ID, disisipkan dengan method seperti: 
+    _" Node.insertBefore()"
+    
+    _Dokumen non-HTML: Dalam dokumen non-HTML, implementasi DOM harus memiliki informasi tentang atribut mana yang bertipe ID. Atribut dengan nama "id" tidak bertipe ID kecuali didefinisikan demikian dalam DTD (Document Type Definition) dokumen. Atribut id didefinisikan sebagai tipe ID dalam kasus umum XHTML, XUL, dan lainnya. Implementasi yang tidak tahu apakah atribut bertipe ID atau tidak diharapkan mengembalikan null.
+    -->
+</head>
+<body>
+    <p id="para">Some Text Here</p>
+    <button onclick="changeColor('blue');">Blue</button>
+    <button onclick="changeColor('red');">Red</button>
+   
+    <input type="button" value="Change this document" onclick="change()"/>
+    <h1>Header</h1>
+    <h2>Header2</h2>
+    <p>Paragraph</p>
+    <script>
+        // getElementById
+        function changeColor(newColor) {
+            const el= document.getElementById("para");
+            el.style.color= newColor
+            el.style.fontSize=newSize 
+        }
+
+        function change(){
+            const header= document.getElementsByTagName("h1")[0];
+            const header2=document.getElementsByTagName("h2").item(0)
+            header.textContent= "Dynamic I";
+            header2.firstChild.data= "Dynamic II"
+
+            const text= document.getElementsByTagName("p")[1];
+            text.firstChild.data="This is the first Paragraph";
+            
+            const newElement= document.createElement("p");
+            const newText= document.createTextNode("This is the second paragraph");
+            newElement.appendChild(newText);
+            text.parentNode.appendChild(newElement)
+        }
+    </script>
+</body>
+</html>

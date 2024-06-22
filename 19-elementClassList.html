@@ -1,0 +1,58 @@
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element classList Property</title>
+    <!-- 
+    Element classList merupakan property read-only yg mengembalikan koleksi DOMTokenList dari attribut kelas element, walaupun prop ini bersifat read-only namun dapat digunakan untuk memanipulasi daftar kelas.
+    _NILAI    
+    DOMTokenList yang mewakili isi dari attribut class element. Jika Attribut kosong, mengembalikan DOMTokeList kosong atau property.length=0.
+    -beberapa method untuk memodifikasi DOMTokenList:
+    1) ADD: element.classList.add('new-class');
+    2) REMOVE: element.classList.remove('existing-class')
+    3) REPLACE: element.classList.replace('old-class', 'new-class')
+    4) TOGGLE: menghapus class, menambah class dengan paremeter "force" bersifat optional berdasarkan nilai boolean.
+    element.classList.
+        element.classList.toggle('class-to-toggle');
+        element.classLIst.toggle('class-to-toggle', true) -> Menambah kelas
+        element.classList.toggle('class-to-toggle, false') -> Menghapus kelas
+    5) CONTAINS : element.classList.contains('existing-class') -> true atau false.
+    
+    -->
+</head>
+<body>
+
+<script>
+    
+    const div= document.createElement("div");
+    div.className= "foo";
+    // starting class <div class="foo"></div>
+    console.log("01.", div.outerHTML);
+    
+    // remove and added classes
+    div.classList.remove("foo")
+    div.classList.add("anotherClass")
+    
+    // <div class="anotherClass"></div>
+    console.log("02." , div.outerHTML);
+    
+    // if visible is set to remove it, otherwise add it
+    div.classList.toggle("visible")
+    
+    // add/remove visible, depending on test conditional, i less than 10
+    div.classList.toggle("visible", i< 10);
+    
+    // false
+    console.log("03.", div.classList.contains("foo"))
+
+    // add or remove multiple classes using spread syntax
+    const cls= ["foo", "bar"];
+    div.classList.add(...cls)
+    div.classList.remove(...cls)
+
+    // replace class "foo" with class bar
+    div.classList.replace("foo", "bar")
+</script>    
+</body>
+</html>

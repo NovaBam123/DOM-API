@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>createElement</title>
+    <!-- 
+        _untuk membuat element HTML baru dalam dokumen, menerima satu parameter yaitu tagName yang merupakan string untuk menentukan jenis element yang akan dibuat.
+        NodeName yang akan dinisiasi dengan nilai tagName tsb.
+        Syntax:
+        createElement(tagName)
+        createElement(tagName, options)
+        
+        _jika menggunakan custom elements yg sebelumnya telah didefinisikan melalui customElements.define() digunakan properti "is" pada object parameter untuk menentukan tag name dari element custom yang ingin dibuat. contoh:
+        class ExpandingList extends HTMLUListElement {
+        constructor() {
+            super();
+            }
+        }
+        customElements.define("expanding-list", ExpandingList, { extends: "ul" });
+        let expandingList = document.createElement("ul", { is: "expanding-list" });
+    -->
+<style> button {cursor: pointer;} </style>     
+</head>
+<body>
+   <div id="div1">
+    The text Above has been created dynamically.
+   </div>
+   <button onclick="addEl()";>Add H1</button>
+   <button onclick="changeColor('blue')">Blue</button>
+   <button onclick="changeColor('red')" >Red</button>
+   
+<script>
+    // document.body.onload= addEl;
+    function addEl(){
+        const newHeader= document.createElement("h1");
+        const newContent= document.createTextNode("Hi There..Greetings..!");
+        newHeader.setAttribute("id", "myHeader")
+        newHeader.appendChild(newContent);
+        const currentDiv= document.getElementById("div1")
+        document.body.insertBefore(newHeader, currentDiv)   
+        newHeader.style.cursor= "pointer";
+    }
+    
+    function changeColor(newColor){
+        const el1= document.getElementById("myHeader")
+        el1.style.color= newColor
+    }
+</script>
+
+</body>
+</html>

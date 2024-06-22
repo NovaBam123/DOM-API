@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>setAttribute</title>
+    <!-- 
+    digunakan untuk menetapkan nilai attribut pada element yang ditentukan.
+    jika atribut sudah ada akan diperbaharui.
+    Syntax:
+    -setAttribute("name", value)    
+    
+    MENDAPATKAN NILAI ATTRIBUTE:
+    -getAttribute() 
+    MENGHAPUS ATTRIBUTE:
+    -removeAttribute()
+    untuk menyalin dan menambahkan attribute dari element lain :
+    -setAttributeNode();
+    falsy dalam js:
+    0, 0n(bigInt0), null, undefined, NaN, "" 
+
+    Beberapa Fungsi setAttribute():
+    1.  Menonaktifkan tombol
+    2.  Manambahkan Data Attribute : sebagai informasi tambahan mengenai elemen tersebut.
+    3.  Mengubah Style element
+    4.  Menambah atau mengubah attribut href pada tautan
+    5.  Menambah atau mengubah attribut src pada gambar/img.
+        const img = document.getElementById("myImage");
+        img.setAttribute("src", "new-image.jpg");
+        img.setAttribute("alt", "New Image Description");
+    -->
+</head>
+<body>
+    <button id="myButton">Click Me</button>
+    <div>
+        <a class="myLink" href=https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Color_picker_tool>google</a>
+    </div>
+<script>
+    // 01. Menonaktifkan Tombol
+    const button= document.getElementById("myButton");
+    button.setAttribute("disabled", "")
+    console.log(button.getAttribute("disabled"));
+
+    // 02. Menambah data Attribute
+    const newAttr= document.createAttribute("data-info");
+    newAttr.value= "Important..!"
+    button.setAttributeNode(newAttr)
+    console.log(button.getAttribute("data-info"))
+
+    // 03. Mengubah style suatu element)
+    button.setAttribute("style",`cursor: pointer`)
+
+    // 04. Menambah atau mengubah attribut href pada tautan
+    const link = document.querySelector(".myLink")
+    // link.setAttribute("href", "https://www.google.com");
+    link.setAttribute("target", "_blank");
+
+    // mengencek nilai falsy pada string kosong
+    let str= ""
+    if(str){
+        console.log("is true")
+    } else{
+        console.log("is false")
+    }
+</script>    
+</body>
+</html>

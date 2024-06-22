@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inner HTML</title>
+    <!-- 
+    property pada object HTML yg diguanakan untuk mendapatkan atau mengatur markup HTML pada element tersebut.
+    Fungsi:
+    1. Mengembalikan hasil string HTML yg merepresentasikan semua elemen anak dalam elemen tersebut.
+    2. Menggantikan seluruh konten elemen dengan HTML yg diberikan dalam bentuk string.
+    == METHOD INSERTADJACENTHTML
+    untuk menyisipkan HTML ke dalam dokumen tanpa menggantikan seluruh konten element, dan dapat menambahkan HTML pada posisi tertentu relatif terhadap element yg ada(sebelum, menyisipkan dan sesudah element)
+    - innerHTML tidak mencakup shadowroots. untuk menyertakan shadowroots gunakan Element.getHTML() atau ShadowRoot.getHTML().
+    - saat mengatur konten elemen, maka element yg dihasilkan dari penguraian/parsing tidak mengandung shadow roots.
+    - Pengaturan yang termasuk shadow root secara deklaratif gunakan ElementsetHTMLUnsafe() atau ShadowRoot.setHTMLUnsafe().    
+    -->
+<style>
+    .box{
+        width: 1200px;
+        height: 900px;
+        border: 1px solid black;
+        padding: 2px 4px;
+        overflow-y: scroll;
+        overflow-x: auto;
+    }
+    .log{
+        margin-top: 8px;
+        font-family: monospace;
+    }
+</style>    
+</head>
+<body>
+    <div class="box">
+        <div><strong>Pesan Log:</strong></div>
+        <div class="log"></div>
+    </div>
+ 
+ <script>
+    // document.documentElement.innerHTML = `<pre>${document.documentElement.innerHTML.replace(/</g, "&lt;")}</pre>`;
+    function log(msg){
+        const logEl= document.querySelector(".log");
+        const time= new Date();
+        const timeStr= time.toLocaleTimeString()
+        logEl.innerHTML += `${timeStr}: ${msg}<br/>`
+    }
+    log("Mouse event:")
+    function logEvent(event){
+        const msg= `Event<strong>${event.type}</strong> at <em>${event.clientX}, ${event.clientY}</em>`
+        log(msg);    
+    }
+    const boxEl=document.querySelector(".box");
+    boxEl.addEventListener("mousedown", logEvent);
+    boxEl.addEventListener("mouseup", logEvent);
+    boxEl.addEventListener("click", logEvent);
+    boxEl.addEventListener("mouseenter", logEvent);
+    boxEl.addEventListener("mouseleave", logEvent);
+ </script>   
+</body>
+</html>
+
+
+

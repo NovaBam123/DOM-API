@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bind this DOM</title>
+</head>
+<style>
+    .outer, .middle, .inner1, .inner2 {
+        display: block;
+        width: 520px;
+        padding: 15px;
+        margin: 15px;
+        text-decoration: none;
+        }
+    .outer {
+        border: 1px solid red;
+        color: red;
+    }
+    .middle {
+        border: 1px solid green;
+        color: green;
+        width: 460px;
+    }
+    .inner1, .inner2 {
+        border: 1px solid purple;
+        color: purple;
+        width: 400px;
+    }
+    /* button {
+        cursor: pointer;
+        padding: 5px;
+        margin: 5px;
+    } */
+</style>
+<body>
+    <!-- BIND DAN TANPA BIND UNTUK MERUJUK PD ELEMENT PEMICU EVENT -->
+    <button class="btn1">Log1</button>
+    <button class="btn2">Log2</button>
+
+    <table id="outside">
+        <tr> <td id="td1">One</td>  </tr>
+        <tr> <td id="td2">Two</td>  </tr>
+    </table>
+    
+    <!-- ADDEVENLISTENER WITH OPTION USAGE -->
+    <div class="outer">Outer, once & none-once
+        <div class="middle" target="_blank">Middle, capture and none-capture
+            <a class="inner1" href="https://www.google.com" target="_blank">
+                Inner1, passive& preventDefault(which is not allowed)
+            </a>
+            <a class="inner2", inner2 href="https://mozilla.org" target="_blank">
+                Inner2, passive & preventDefault(not open new page)
+            </a>
+        </div>
+    </div>
+
+    <!-- EVENT LISTENER WITH MULTIPLE OPTIONs -->
+    <button id="example">JUST FOR ONCE CLICK..!</button>
+    <button id="reset">RESET</button>
+    <div id="container">
+        <p id="para">But down there it would be dark now, and not the lovely lighted  aqarium she imagined it to be during the daylight hours, eddying with schools of tiny, delicate animals floating and dancing slowly to their own serene currents and creating the look of a living painting. That was wrong, in any case. The ocean was different from an aquarium, which was an artificial environment. The ocean was a world. Ad a world is not art. Dorothy thought about the living things that moved in that world: large tuthless and hngry Like us up here.</p>
+    </div>    
+    <div>
+        <input type="checkbox" id="passive" name="passive" checked/>         
+        <label for="passive">passive</label>
+    </div> 
+
+<script>
+    // CONTOH MENGGUNAKAN BIND DAN TANPA BIND UNTUK MERUJUK PD ELEMENT PEMICU EVENT
+    const btn1= document.querySelector(".btn1");
+    const btn2= document.querySelector(".btn2");
+    btn1.style= "padding: 5px; margin: 5px; cursor: pointer;"
+    class Something {
+        name= "Something Good";
+        even= "Finally Done"
+        constructor(el){
+            // this.diklik= this.diklik.bind(this)
+            this.onclick2= this.onclick2.bind(this)
+            btn1.addEventListener("click", this.diklik)
+            btn2.addEventListener("dblclick", this.onclick2)
+        }
+        diklik(e){
+            console.log("1a.", this.name)
+            console.log("1b. nama event:", e.type)
+            console.log("1c. element target:", e.currentTarget)
+        }
+        onclick2(e){
+            console.log("2a.", this.even)
+            console.log("2b. nama event:", e.type)
+            console.log("2c. element Target:", e.currentTarget)
+        }
+    }
+    const s= new Something(document.body)
+    
+    // SOLUSI LAIN DAN SPECIAL FUNCTION HANDLEEVENT() U/ MENANGKAP EVENT
+    class Anything {
+        name= "finish I"
+        city= "finish II"
+        constructor(){
+            btn1.addEventListener("click", this);
+            btn2.addEventListener("dblclick", this);
+        }
+        handleEvent(event){
+            switch(event.type){
+                case "click": console.log("1d.", this.name)
+                break;
+                case "dblclick": console.log("2d.", this.city)
+                break;    
+            }
+        }
+    }
+    const myS= new Anything(document.body)
+
+    // ADDEVENLISTENER WITH ANONYMOUS FUNCTION 
+    function modifyText(new_text){
+        const t2= document.getElementById("td2");
+        myText= t2.firstChild.nodeValue=== new_text;
+        t2.firstChild.nodeValue= myText? "Two": new_text  ;
+        t2.style.cursor= "pointer"
+    }
+    const el= document.getElementById("outside")
+    el.addEventListener("click", function(e) {
+        // console.log(e.target.textContent)
+        {modifyText("Four")}
+        if(e.target.textContent === "Two"){
+            e.currentTarget.style.color= "yellow"
+        } else {
+            e.currentTarget.style.color="red"
+        }
+    })
+    // ADDEVENLISTENER WITH ARROWFUNCTION
+    // el.addEventListener("click", (e)=>{ modifyText("Five")})
+
+    // ADDEVENLISTENER WITH OPTION USAGE
+    const outer= document.querySelector(".outer");
+    const middle= document.querySelector(".middle");
+    const inner1= document.querySelector(".inner1");
+    const inner2= document.querySelector(".inner2");
+   
+    outer.addEventListener("click", onceHandler, { once: true });
+    outer.addEventListener("click", noneOnceHandler);
+    middle.addEventListener("click", captureHandler, { capture: true});   
+    middle.addEventListener("click", noneCaptureHandler)
+    inner1.addEventListener("click", passiveHandler, { passive: true});
+    inner2.addEventListener("click", nonePassiveHandler);
+
+    function onceHandler(e){console.log("01. OUTER, ONCE")};
+    function noneOnceHandler(e){console.log("02. OUTER, NONE-ONCE, DEFAULT")}
+    function captureHandler(e){console.log("03. MIDDLE, CAPTURE")}
+    function noneCaptureHandler(e){console.log("04. MIDDLE, NONE-CAPTURE, DEFAULT",)}
+    function passiveHandler(e){
+        e.preventDefault()
+        console.log("05. INNER1, PASSIVE, OPEN NEW PAGE")
+    }
+    function nonePassiveHandler(e){
+        e.preventDefault();
+        console.log("06. INNER2, NONE-PASSIVE, DEFAULT, NOT OPEN NEW PAGE")
+    }
+
+    //EVENTLISETENER WITH MULTIPLE OPTIONS
+    const clicked= document.getElementById("example");
+    const reset= document.getElementById("reset")
+    const initialText= clicked.textContent;
+    function eventListener(e){
+        clicked.textContent= "ONCE CLICK ONLY..!!";
+        e.target.style.backgroundColor= "lightgreen"
+        reset.style.backgroundColor="lightblue"
+    }
+    
+    function addListener(e){
+        clicked.addEventListener("click", eventListener, { once: true });
+    }
+    
+    reset.addEventListener("click", ()=>{
+        clicked.textContent= initialText
+        addListener();
+        clicked.style.backgroundColor=""
+    })
+
+    // IMPROVING SCROLL PERFORMANCE USING PASSIVE LISTENER
+    // const passive= document.querySelector("#passive");
+    // passive.addEventListener("change", (e)=> {
+    //     container.removeEventListener("wheel", wheelHandler);
+    //     container.addEventListener("wheel", wheelHandler, {
+    //         passive: passive.checked, 
+    //         once: true,
+    //     })    
+    // })
+    // const container= document.querySelector("#container");
+    // container.addEventListener("wheel", wheelHandler, {
+    //     passive: true,
+    //     once: true,
+    // })
+    // function wheelHandler(){
+    //     function isPrime(n){
+    //         for(let c=2; c<=Math.sqrt(n); ++c){
+    //             if(n% c=== 0){
+    //                 return false
+    //             }
+    //         }
+    //         return true
+    //     }
+    //     const quota= 1000000;
+    //     const primes= []
+    //     const maximum= 1000000;
+    //     while (primes.length< quota){
+    //         const candidate= Math.floor(Math.random()*(maximum +1 ));
+    //         if(isPrime(candidate)){
+    //             primes.push(candidate)
+    //         }
+    //         console.log(primes)
+    //     }
+    // }
+    
+</script>    
+</body>
+</html>

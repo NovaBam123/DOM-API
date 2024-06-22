@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Append Child</title>
+    <!-- 
+    Menambahkan sebuah node ke akhir daftar anak2 dari node yg ditentukan, jika child adalah referensi ke node yg sudah ada dalam dokumen maka appendChild akan memindahkan-nya ke posisi baru.
+    Syntax: 
+    -appendChild(aChild)
+    _Jika aChild adalah document fragment, seluruh isi "document fragament" akan dipindahkan ke dalam daftar anak dari node induk yg ditentukan.
+    _mereturn node yg baru ditambahkan, atau jika aChild adalah document fragment mengembalikan document fragment yg telah dikosongkan.
+    _Perbedaan dg Element.append()    
+    metode Element.append() mendukung argumen dan penggabungan string, tidak seperti aChild.
+    _Parameter yg ditambahkan ke node induk umumnya sebuah element.
+    Metode cloneNode() 
+    digunakan untuk membuat salinan node sebelum menambahkannya ke induk baru.
+
+    Menambahkan teks diantara dua kata: 
+    - jika ingin menyisipkan digunakan "insertBefore('')"    
+    -->
+</head>
+<body>
+    <p>Hello World</p>
+    <p>Haii..</p>
+<script>
+    const div= document.createElement("div");
+    const text= document.createTextNode("This some text");
+    div.appendChild(text)
+    document.body.appendChild(div)
+
+    // CONTOH CLONENODE()
+    const div2= div.cloneNode(true);
+    document.body.appendChild(div2)
+
+    const fragment= document.createDocumentFragment();
+    const li= fragment
+        .appendChild(document.createElement("section"))
+        .appendChild(document.createElement("ul"))
+        .appendChild(document.createElement("li"))
+    li.textContent= "Hello world"    
+    document.body.appendChild(fragment)
+
+    // Menambah text world
+    const paragraphs= document.getElementsByTagName("p")[1];
+    const newText= document.createTextNode(" Wonderful");
+    paragraphs.appendChild(newText)
+
+    // Menyisipkan wonderful dengan insertBefore;
+    const first= document.getElementsByTagName("p")[0];
+    const wordTextNode= first.childNodes[0];
+    const insertText= document.createTextNode(" Wonderful ")
+    first.insertBefore(insertText, wordTextNode)
+    
+    // document.body.innerHTML= "";
+</script>    
+</body>
+</html>

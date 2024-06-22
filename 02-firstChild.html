@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>First Child</title>
+    <!-- 
+        _firstChild mengembalikan hasil node pertama dari sebuah element, termasuk teks dan komentar.
+        _node adalah unit2 dasar dari document global bisa berupa element, teks, komentar table, list dll.
+        _Object document global adalah titik masuk pertama untuk mengakses dan memanipulasi node dalam HTML.
+        beberapa penomoran nodeType:
+        "1" -> element, "3"-> teks
+        "8" -> komentar
+
+        _perbedaan firstElementChild dan firstChild:
+        -firstChild akan mengembalikan node apapun termasuk spasi dan komentar sedangkan firstElementChild akan menampilan element pertama dari anak tersebut dan tidak mengindahkan komentar dan spasi yang ada.
+        
+        textContent= property dari element yang mengembalikan hasil berupa teks dari element semua anaknya.
+        data= properti dari node text yang mengembalikan hasil berupa teks dari node tersebut. => penggunaanya pada node teks tsb dan tidak pada element.
+        contoh dibawah ini: h: adalah element
+        anak dari element h ini adalah node text yaitu header1.
+
+        firstChild: mengembalikan anak pertama dari element node tsb dapat berbentuk teks, komentar, dll.
+        firstElementChild: mengembalikan anak pertama dari node tsb yang hanya berbentuk element.
+     -->
+</head>
+<body>
+    <div id="container">
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+    </div>
+
+    <input type="button" value="Change this document" onclick="change()"/>
+    <h1>Header1</h1>
+    <h2>Header2</h2>
+    <p>Paragraph</p>
+<script>
+    const p01= document.getElementById("container");
+    console.log("01.", p01.firstChild.nodeName)
+    console.log("02.", p01.firstChild.nodeType)
+    console.log("03.", p01.firstChild.textContent)
+    console.log("04.", document.getElementById("container").firstElementChild.textContent)
+    
+    function change(){
+        const h1= document.getElementsByTagName("h1").item(0);
+        const h2= document.getElementsByTagName("h2")[0];
+        h1.firstChild.textContent= "Dinamic I"
+        h2.firstChild.data= "Dinamic II"
+
+        const text= document.getElementsByTagName("p")[2]
+        text.firstChild.data= "This is first Paragraph";
+
+        const newEl= document.createElement("p")
+        const newText= document.createTextNode("This is second paragraph")
+        newEl.appendChild(newText)
+        text.parentNode.appendChild(newEl)
+    }
+
+</script>    
+</body>
+</html>

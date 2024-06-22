@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element children Property</title>
+    <!-- 
+    Property children adalah properti read-only yang mengembalikan hasil berupa koleksi live "HTML collection" terurut yang berisi semua element anak yg dipanggil/anak dari node.
+    -element node hanya menyertakan node element. untuk mendapatkan semua node anak termasuk teks, komentar, gunakan "Node.childNodes."
+    -contoh 2 cara mengakses:
+    let firstChild = parentElement.children.item(0)
+    let firstChild = parentElement.children[0]  
+    Element (1): Node elemen (contoh: <div>, <p>, <span>).
+    Attribute (2): Node atribut (contoh: id="example", class="myClass").
+    Text (3): Node teks (contoh: teks di dalam <p>This is a paragraph.</p>).
+    ProcessingInstruction (7): Node instruksi pemrosesan (contoh: <?xml-stylesheet type="text/css" href="style.css"?>).
+    Comment (8): Node komentar (contoh: <!-- This is a comment -->)
+</head>
+<body>
+    <div id="divParent">
+        <p>First paragraph</p>
+        ini adalah text node
+        <span>Some span</span>
+        <!-- Comment Node -->
+    </div>
+<script>
+    // MENGAKSES CHILDREN ELEMENT
+    const parentElement=document.getElementById("divParent");
+    const children= parentElement.children
+    for(let el of children){
+        console.log("01.", "children.length:",children.length, ":", el)
+    }
+    // MENGAKSES CHILDREN CHILDNODES
+    const nodes= parentElement.childNodes;
+    nodes.forEach((el, index) => {
+            if (el.nodeType === 1) {
+                console.log(`${el.nodeType}: Element: ${el.tagName.toLowerCase()}`);
+            } else if (el.nodeType === 2) {
+                console.log(`${el.nodeType}: Attribute: ${el.nodeName}`);
+            } else if (el.nodeType === 3) {
+                console.log(`${el.nodeType}: Text: "${el.textContent.trim()}"`);
+            } else if (el.nodeType === 8) {
+                console.log(`${el.nodeType}: comment "${el.textContent.trim()}"`);
+            } else {
+                console.log(`type lainnya: ${el.nodeType}`);
+            }
+        });
+    console.log("03.", nodes.length)
+</script>    
+</body>
+</html>

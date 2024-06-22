@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Your Skills</title>
+</head>
+<style>
+    .button-bar{
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+    button{
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+<body>
+    <input type="text" id="input"/>
+    <!-- <button class="off">Machine is Off</button> -->
+    
+    <div class="button-bar">
+        <button data-color="red">Red</button>
+        <button data-color="yellow">Yellow</button>
+        <button data-color="green">Green</button>
+        <button data-color="purple">Purple</button>
+    </div>
+<script>
+    // const btn= document.querySelector(".off")
+    // function machineOn(e){
+    // if(this.textContent === "Machine is Off"){
+    //     this.textContent = "Machine is On"
+    //     this.style.cursor= "pointer"
+    //     } else{
+    //         this.textContent= "Machine is Off"
+    //     }
+    // }
+    // btn.onclick= machineOn;
+
+   // Button Color
+    const buttonBar= document.querySelector(".button-bar");
+    buttonBar.addEventListener("click", function(e){
+        const color= e.target.getAttribute("data-color")
+        console.log(color);
+        e.currentTarget.style.backgroundColor= color
+        e.target.style.cursor= "pointer"
+    }, { capture: true })    
+</script>    
+</body>
+</html>
+
+
+
+ 

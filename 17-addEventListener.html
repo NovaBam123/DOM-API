@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventTarget: addEventListener()</title>
+    <!-- 
+    Digunakan untuk menambah fungsi yang akan dipanggil setiap kali event tertentu dikirim ke target. terget berupa object yang menudukung peristiwa (seperti IDBrequest)-> index dataBase API yang menyimpan data noSQL(json) dalam jumlah besar dibrowser pengguna.
+    fungsi:
+    1. Menambahkan lebih dari satu handler dalam sebuah event.
+    2. Kontrol lebih terhadap fase listener.
+    3. Bekerja pada semua terget event.(tidak hanya HTML dan SVG.)
+    Syntax: 
+    - addEventListener(type, listener)    
+    - addEventListener(type, listener, option)    
+    - addEventListener(type, listener, useCapture)   
+    
+    Parameter: 
+    1. type: 
+        jenis string peka terhadap huruf besar kecil(case sensitive) yg mewakili jenis even yang ingin didengarkan. ex: "click", "mouseover", "keydown".
+    2. listener: 
+        jenis function atau object dengan method handleEvent()
+        deskripsi: objek atau fungsi yg menerima notifikasi saat event yang ditentukan terjadi. contoh: click, mouseover, keydown.
+        nilai yang diterima: null, object dengan moteda hendleEvent() fungsi js
+        contoh: element.addEventListener("click", function(event)){
+            console.log("clicked!"");
+        }
+        element.addEventListener("click", {
+            handleEvent: function(event){
+                console.log("Clicked");
+            }
+        })
+    3.  Option(optional)    
+        jenis Object
+        Deskripsi: Objek yang menentukan karakteristik event listener.
+        Opsi yang tersedia: 
+        a) capture: jenis boolean, 
+        deskripsi : jika true, event akan dikirim ke listener yang terdaftar sebelum dikirim ke target yg berbeda di bawahnya dalam pohon DOM. default adalah false.
+        contoh { capture: true }
+        b) once: jenis boolean, 
+        deskripsi: jika true, listener akan dipanggil paling banyak sekali setelah ditambahkan. setelah dipanggil, listener akan dihapus secara otomatis. default false. ex: { once: true }
+        c) passive: jenis boolean
+        deskripsi: jika true listener tidak akan memanggil "preventDefault()". Jika listener pasif memanggil preventDefault(), browser akan menghasilkan peringatan di consol. defaultnya false. kecuali untuk event tertentu seperti "wheel", "mousewheel", touchstart, touchmove, dimana default adalah true.
+        contoh { passive: true }
+        d) signal: jenis "abortSignal"
+        deskripsi: Listener akan dihapus saat method abort() dari object AbortSignal yang diberikan dipanggil. jika tidak ditentukan tidak ada "Abortsignal" yang terkait dengan listener. contoh:
+        const controller = new AbortController()
+        const signal = controller.signal
+        element.addEventListener("click", function(){ console.log ("clicked");}, {
+            { signal: signal })
+        })
+        controller.abort();
+        e) useCapture: jenis boolean
+        deskripsi: Menentukan apakah event dari jenis ini akan dikirim ke listener yang terdaftar sebelum dikirim ke target yang berbeda dibawah-nya dalam pohon DOM. default-nya "false"
+        note: untuk listener yang terpasang pada target event, event berada di fase target, bukan fase capturing atau bubling.
+        f) wantsUntrusted: jenis boolean
+        deskripsi: Paramater khusus untuk Firefox(Gecko). jika true, listener menerima event sintesis yang dikirim oleh konten web. default-nya false. untuk chrome default: true. contoh: { wantsUntrusted: true}
+        
+        parameter hanya satu yaitu object berbasis event.
+        EventListener ditentukan dalam 2 bentuk: 
+        1. Callback function
+        2. Object dengan method handleEvent():
+           - memungkinkan penggunaan state dalam obj.
+           - mengelompokan logika yang terkait dalam satu object.
+        
+        //THE VALUE OF THIS WITHIN THE HANDLER
+        untuk nama method yang bukan merupakan standar penamaan method event dalam 
+        browser kita gunakan: 
+        _bind contoh: 
+        btn.addEventListener("click", clickHandler.handle.bind(clickHandler));
+        _fungsi perantara. (bisa juga untuk mendapatkan data API)
+        
+        Saat kita menambahkan suatu event pada sebuah element, this dalam handler akan merujuk ke element yang memicu even tersebut. maka nilai this ini akan sama dengan nilai property "currenTarget" dari object event yg diteruskan pada handler. 
+        Arrow function tidak mempunyai konteks this-nya sendiri.
+        kita mendefinisikan event handler langsung dilakukan dalam HTML, js yg berada dalam attribut tersebut secara efektif dibungkus dalam fungsi yang mengikat nilai this.
+        Namun saat menggunakan method evenHandler maka this merujuk pada nama object tersebut..untuk merubah this merujuk pada element pemicu event gunakan "bind"
+
+        GETTING DATA INTO AND OUT OF AN EVENT LISTENER 
+        Even listener tampak terisolasi karena hanya menerima satu argument yaitu "Event Object" dan nilai pengembalian diabaikan. Namun ada beberapa metode efektif untuk mengirim data ke dalam event listener dan mendapatkan data dari event tersebut. berikut 4 cara tsb:
+        1. Closure Function untuk handleEvent:
+        2. Property object pada Element target
+        3. Menggunakan data-*Attributes
+        4. Menggunakan Global variable atau State Management
+        5. Menggunakan function.prototype.bind
+
+        Untuk efisiensi konsumsi memori:
+        const elems= document.getElementByTagName("*")
+        function processEvent(e){
+            //do something
+        }
+        for(const elem of elems){
+            elem.addEventListener("click", processEvent, false)
+        }
+
+        //  ADD SIMPLE LISTENER
+
+    --> 
+</head>
+<body>
+    <button id="btn1">Log1</button>
+    <button id="btn2">Log2</button>
+    <button id="btn3">Download1</button>
+    <button id="btn4" data-id= "myDataObj">Download2</button>
+    <button id="btn5" data-id= "3" data-name= "TestIII">Download3</button>
+    <button id="btn6">Download4</button>
+    <button id="btn7">Download5</button><br>
+    <table id="outside">
+        <tr> <td id="td1">One</td> </tr>
+        <tr> <td id="td2">Two</td> </tr>
+    </table>
+    
+<script>
+    // EVENHANDLER FUNCTION
+    function handleClick(e){
+        this.style.backgroundColor= "green"
+        console.log("01. Button01 with function tipe event:", e.currentTarget)
+        console.log("02.", this=== e.currentTarget)
+    }
+    const button= document.querySelector("#btn1");
+    button.addEventListener("click", handleClick)
+
+    // EVENHANDLER DENGAN OBJECT this akan mengacu pada elemen pemicu penyebab even tersebut terjadi.
+    const clickHandler = {
+        handleEvent(e){
+            console.log("03. Button02 with method object tipe event:", e.type)
+            e.currentTarget.style.backgroundColor= "red"
+        }
+    }
+    const btn= document.querySelector("#btn2");
+    btn.addEventListener("click", clickHandler)
+
+    // MENYIMPAN STATE UNTUK MENANGAI BERBAGAI EVENT:
+    const eventHandler ={
+        handleEvent(e) {
+            switch(e.type) {
+                case "click": this.handleClick(e);
+                break;
+                case "mouseover": this.handleMouseOver(e);
+                break;
+                default: console.log("Unhandled event type: e.type") 
+            }
+        },
+        handleClick(e){ console.log("Element clicked:", e) },
+        hanleMouseOver(e) { console.log("Mouse over element:", e) }
+    }
+    // const element = document.querySelector('div');
+    // element.addEventListener('click', eventHandler);
+    // element.addEventListener('mouseover', eventHandler);    
+
+    // 01. Closure Function untuk handleEvent:
+    function createListener(data){
+        return function(event){
+            console.log("1a. Data: ", data);
+            console.log("1b. Event:", event)
+        }
+    }
+    const downloadBtn1 = document.querySelector("#btn3");
+    const myData= { id: 1, name: "testI" };
+    downloadBtn1.addEventListener("click", createListener(myData));
+
+    // 02. Menggunakan Property object pada element target
+    const download2= document.querySelector("#btn4");
+    download2.myDataObj= { id: 2, name: "TestII"}
+        
+    download2.addEventListener("click", function(event) {
+            console.log("2a. Data:", event.currentTarget.myDataObj)
+            console.log("2b. Event:", event)
+        })           
+    
+    // 03. Menggunakan data-*Attributes
+    const download3= document.querySelector("#btn5");
+    download3.addEventListener("click", function(event){
+        const data= {
+            id: event.currentTarget.dataset.id,
+            name: event.currentTarget.dataset.name
+        }
+        console.log("3a. Data:", data)
+        console.log("3b. Event:", event)
+    })
+
+    // 04. Menggunakan Global variable atau State Management
+    const download4= document.querySelector("#btn6")
+    const appState= {
+        buttonData: { id: 4, name: "TestIV" } 
+    }
+    download4.addEventListener("click", function(event){
+        console.log("4a. Data:", appState.buttonData)
+        console.log("4b. Event:", event)
+    })
+
+    // 05. Menggunakan function.prototype.bind
+    const download5= document.querySelector("#btn7")
+    download5.addEventListener("click", passIntoEvent.bind(appState))
+    function passIntoEvent(e){
+        console.log("5a. Data:", this.buttonData)
+        console.log("5b. Event:", e)
+    }
+    
+    // ADD SIMPLE LISTENER(Event Delegation) dan Add an abortable listener
+    // const controller= new AbortController();
+    // const signal= controller.signal
+    const modifyText= {
+        handleEvent(e){
+           const myNode= e.target; 
+           const t2= document.getElementById("td2");
+           const isNodeThere= myNode.firstChild.nodeValue === "Three" 
+           myNode.firstChild.nodeValue= isNodeThere ? "Two" : "Three"
+        //    controller.abort()
+        }
+    }
+    const el= document.getElementById("outside");
+    el.addEventListener("click", modifyText, { once: true })
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Element.getElementsByTagName</title>
+<!-- 
+    _Digunakan untuk mendapatkan koleksi element yang memiliki nama tag tertentu
+    _Mengembalikan koleksi elem dalam bentuk dinamis(live), koleksi tersebut secara otomatis diperbaharui jika struktur DOM berubah.
+    _Mencari element2 dg tag dalam semua keturunan(descendent) dari element yang dipanggil. tetapi tidak termasuk element itu sendiri.
+    Perbedaannya dengan document.getElementByTagName: 
+    element: hanya mencari yang merupakan keturunan dari nama element yg dipanggil.
+    document: mencari element di seluruh document.
+    Syntax:
+    -getElementsByTagName(tagName)
+
+    _method forEach, map, filter dan semua method array tidak ada dalam HTML collection sehingga dikoversi dahulu dalam bentuk array. dengan Array.from() atau spread operator untuk dimanipulasi dalam DOM.
+-->
+</head>
+<body>
+    <div id="container">
+        <h2>Header 2</h2>
+        <p>Paragraph1: Andi</p>
+        <p>Paragraph2: Budi</p>
+    </div>
+    <p>Paragraph3: Carla</p>
+
+<script>
+    // PERBEDAAN DOCUMENT.GET DG ELEM.GET:
+    const allParagraphs= document.getElementsByTagName("p")
+    const element= container.getElementsByTagName("*")
+    console.log("01. Paragraph:", allParagraphs.length);
+    for(const el of allParagraphs){
+        console.log("02.", el.textContent)
+    }
+    const arr1= Array.from(allParagraphs)
+    const arr2= [...allParagraphs]
+    arr1.forEach((el, i)=> {
+        console.log(`03. ${i}: ${el.textContent}`)    
+    })
+
+    // Element
+    for(const el of element){
+        console.log("04.", el.textContent)
+    }
+    // Akses spesifik element
+    console.log("05.", allParagraphs.item(1))
+    console.log("06.", allParagraphs[2])
+    console.log("07.", container.getElementsByTagName("p").item(0));
+    console.log("07.", container.getElementsByTagName("*")[0]);
+</script>
+</body>
+</html>

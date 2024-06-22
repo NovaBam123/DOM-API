@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Traversing HTML in DOM interface</title>
+    <!-- 
+
+    -->
+</head>
+<body>
+    <input type="button" value="Generate a Table" onclick="genTable()"/>
+    <input type="button" value="Red" onclick="setColor('red')"/>
+    <input type="button" value="Blue" onclick="setColor('_','green')"/>
+    <p>Hi</p>
+    <p>Hello</p>
+<script>
+    function genTable(){
+        const tbl= document.createElement("table");
+        const tblBody= document.createElement("tbody");
+        for(let i=0; i< 2; i++){
+            const row=document.createElement("tr")
+            for(let j=0; j< 2; j++){
+                const cell= document.createElement("td")
+                const cellText= document.createTextNode(`cell in row ${i}, column ${j}`);
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+                tblBody.appendChild(row)
+            }
+            tbl.appendChild(tblBody)
+            document.body.appendChild(tbl)
+            tbl.setAttribute("border", "2")
+        }
+    }
+    // Set BackGround Color
+    const paragraphs= document.getElementsByTagName("p");
+    const first= paragraphs[0]
+    const second= paragraphs[1]
+    function setColor(color1, color2){
+        first.style.background= color1;
+        second.style.background= color2;
+    }
+    // Create text with document.createTextNode("")
+    myTextNode= document.createTextNode(" World")
+    second.appendChild(myTextNode);
+    
+    // Insert Text with insertBefore
+    const worldTextNode= second.childNodes[1];
+    const newText= document.createTextNode(" Wonderful");
+    second.insertBefore(newText, worldTextNode)
+
+    // Create new element
+    const newEl= document.createElement("p");
+    const newText2= document.createTextNode("Good Morning");
+    newEl.appendChild(newText2)
+    worldTextNode.parentNode.appendChild(newEl)
+
+    // Removing nodes with the RemoveChild()
+    const third= document.getElementsByTagName("p")[2]
+    third.removeChild(newText2)
+</script>    
+</body>
+</html>

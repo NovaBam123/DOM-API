@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Even Introduction II</title>
+    <style>
+    /* .hidden { display: none }; */
+    body {
+        background-color: white;
+    }
+    #container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 5px; 
+    }
+    .tile {
+        background-color: black; 
+        width: 100%;
+        padding-bottom: 100%; 
+        box-sizing: border-box; 
+    }
+    </style>
+</head>
+<body>
+  <button>Display Video</button>  
+  <!-- <div class="hidden">
+    <video>
+        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm"/>
+        <p>Your browser doesn't support HTML video. Here is a 
+            <a href="rabbit320.mp4">Link to the video</a> Instead.
+        </p>
+    </video>
+  </div> -->
+
+  <div id="container">
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+  </div>
+<script>
+    // const btn= document.querySelector("button");
+    // const div= document.querySelector("div");
+    // const video= document.querySelector("video");
+    // btn.addEventListener("click", ()=> {
+    //     div.classList.remove("hidden")
+    //     event.stopImmediatePropagation()
+    // });
+    // video.addEventListener("click", ()=> {
+    //     video.play()
+    //     // /event.stopImmediatePropagation()
+    // });
+    // div.addEventListener("click", ()=> div.classList.add("hidden"))
+
+    // EVENT DELEGATION
+    function randomNumb(number){
+        return Math.floor(Math.random()*(number+1))
+    }
+    function changeBackground(e) {
+        const rndCol= `rgb(${randomNumb(255)} ${randomNumb(255)} ${randomNumb(255)})`;
+        document.body.style.backgroundColor= rndCol;
+        return rndCol
+    }
+    const contianer= document.querySelector("#container")
+    container.addEventListener("click", (e)=>{
+        e.target.style.backgroundColor= changeBackground()
+    }, { capture: false } )
+</script>  
+</body>
+</html>

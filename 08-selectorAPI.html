@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Locating DOM elements using Selectors</title>
+    <!-- 
+    API menambahkan dua method baru pada objek yang mengembalikan interface Document, Document Fragment dan Element.
+    - Document Fragment merupakan bagian dari DOM yang bertindak sebagai wadah atau tempat penyimpanan sementara untuk node. Umumnya disebut sebagai document mini yang dapat dimanipulasi dalam DOM. 
+    - Document Fragment tidak menyebabkan perhitungan ulang tata letak/ rendering ulang sehingga sering digunakan untuk meningkatkan kinerja saat memanipulasi DOM.
+    
+    SELECTOR:
+    - document.querySelector()
+    - document.querySelectorAll()
+    - document.getElementByID()
+    - document.getElementsByTagName()
+    - document.getElementByClassName()
+    - document.getElementsByName
+    
+    SET ATTRIBUTE: 
+    Menambahkan atau memperbaharui atribut apapun pada element DOM. namun dapat juga dengan menambahkan properti id pada object tersebut. contoh: 
+    const element= document.createElement("div")
+    element.setAttribute("id", "my-id")
+    document.body.appendChild(element)
+
+    -Dengan menambahkan properti id langsung pada objek
+    const el= document.createElement(h1)
+    el.id= "my-id"
+    -->
+
+</head>
+<body>
+<script>
+    const fragment= document.createDocumentFragment();
+    const newEl= document.createElement("div");
+    newEl.textContent= "Hello World";
+    fragment.appendChild(newEl)
+    document.body.appendChild(fragment)
+</script>    
+    
+</body>
+</html>

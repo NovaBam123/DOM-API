@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Events</title>
+    <style> 
+        body { transition: background-color 1.2s}    
+        button { cursor: pointer } 
+    </style>
+    <!-- 
+    - evenHandler: Kode yg dijalankan sebagai respons terhadap sebuah event.
+    - evenListener: mendengarkan terjadinya event dan mengeksekusi event handler ketika event tersebut terjadi.
+    - Even diWeb bukan bagian dari Js namun didefinisikan dari API yang dibangun kedalam browser. 
+    LISTENING FOR OTHER EVENTS:
+    _Focus : biasanya untuk field form saat difokuskan atau pesan kesalahan.
+    _BlurL memberikan feedback setelah pengguna menyelesaikan interaksi dengan element.
+    _Mouseover: ketika mouse melayang diatas tombol
+    _Mouseout: ketika mouse bergerak keluar tombol.
+    _dblclick: ketika mouse diklik dua kali.
+    _click: tersedia pada hampir semua element.
+    _play: event specifik untuk audia dan video
+    _pause 
+
+    REMOVING LISTENER
+    Menghapus suatu event yang terdaftar dengan removeEventListener()
+    atau dengan parameter ketiga dalam addEventListener: signal
+    const controller= new AbortController()
+    { signal : controller.signal } atau cukup dengan signal setalah kita mendeklarasikan global variable const signal= controller.signal.
+
+    EVEN HANDLER PROPERTIES (jangan lupa ON didepan event-nya!): 
+    Merupakan eventHandler dengan menambahkan method properties pada sebuah element dalam DOM API. syntax baku penamaan properties tersebut dimulai dengan kata "on" diikuti type event yang juga sama digunakan dalam even handler dalam addEvenListener() contoh: 
+    1. Mouse events: onclick, ondblclick, onmousedown, onmouseup, onmouseover, onmouseout, onmousemove
+    2. Keyboard events: onkeydown, onkeypress, onkeyup
+    3. Form events: onsubmit, onreset, onchange, oninput, onfocus, onblur
+    4. Windows events: onload, onunload, onresize, onscroll
+    5. Media events: onplay, onpause, onended
+    
+    INLINE EVENT HANDLER/EVENT HANDLER ATTRIBUTES- DON'T USE THIS..!
+    Menetapkan suatu event langsung kedalam element didalam attribut HTML.
+    Hal ini tidak disarankan karena beberapa faktor:
+    1. Mencampur HTML dan Js
+    2. Keterbatasan Skala event dan pengelolaan kode yang rumit
+    3. Kemanan dari serangan XSS(Cross Site Scripting) 
+    
+    EVEN OBJECT 
+    sebagai parameter fungsi, penamaan bebas namun umumnya e, event evt
+    cth function changeColor(e){ }
+
+    EXTRA PROPERTIES OF EVENT OBJECTS
+    Object event memiliki satu set property dan method standar yg menyediakan informasi tentang event tersebut. Bbrp contoh prop dan method: type, target, currentTarget, timeStamp, preventDefault(), stopPropagation().
+    Event khusus dg property tambahan : KeyboardEvent yang dipicu keydown, keyup, dll.
+    
+    PREVENTING DEFAULT BEHAVIOR
+    event.preventDefault() Digunakan untuk menghentikan aksi default suatu event. Untuk form biasanya untuk mencegah pengiriman keserver dan pengalihan halaman.
+
+    PERBEDAAN E.TARGET DAN E.CURRENTTARGET
+    e.target: Akan selalu menunjuk ke elemen yang asli diklik, yaitu button dalam hal ini.
+    e.currentTarget: Akan menunjuk ke elemen yang saat ini sedang memproses event.
+
+    EVENT BUBBLING
+    - Merambat-nya suatu event yang "sama" ke bagian atas rantai element.
+    - terjadi pada element paling dalam tempat event tersebut dipicu dan naik pada element ke paling atas pada element induk sampai pada puncak yaitu document(Bubble Up).
+    - terjadi pada semua method even handler; yaitu evenHandler properties, addEven dan juga evenHandler Attributes/inline handler.
+    - fase bubbling merupakan default dalam semua browser.
+    - Even propagation ini terdiri dari 3 fase:
+    a) Capturing phase b)Target Phase c) Bubbling phase. Bubbling terjadi pada fase terakhir dari sebuah propagation.
+    Perbedaan antara event.stopPropagation() dan event.stopImmediatePropagation()
+    - event.stopPropagation(): Hanya menghentikan bubbling dari event ke elemen induk, event listener lainnya pada elemen yang sama masih akan dieksekusi.
+    - event.stopImmediatePropagation(): Menghentikan bubbling dan juga menghentikan semua event listener lainnya pada elemen yang sama dari dieksekusi.
+
+    EVENT CAPTURE
+    - merupakan bentuk lain propagation event yang mirip dengan event bubling namun urutan terbalik. event pertama kali dipicu pada element yang paling luar dalam rantai element dan turun ke element paling dalam.
+    - secara default capture dinonaktifkan dalam addEventListener:
+    AddEventListener(type, listener, { capture: false})
+
+    EVENT DELEGATION
+    -->
+</head>
+<body>
+    <button id="btn1">Change Color</button>
+    <button id="btn2">Popup Message</button>
+    <input type="text" id="username" placeholder="Enter your username">
+    <h3 id="message"></h3>
+    <input id="textBox" type="text"/>
+    <h3 id="output"></h3>
+    <form>
+        <div>
+            <label for="fname">First name:</label>
+            <input id="fname" type="text"/>
+        </div>
+        <div>
+            <label for="lname">Last name:</label>
+            <input id="lname" type="text"/>
+        </div>
+        <div>
+            <input id="submit" type="submit"/>
+        </div>
+    </form>
+    <p id="page"></p>
+    <div id="parentDiv">
+        <button id="childBtn">Event Bubbling</button>
+    </div>
+   
+    <div id="container">
+        <button id="btn3">Event Bubbling II</button>
+    </div>
+    <pre></pre>
+
+    <div id="container2">
+        <button id="btnInside">Event Capture</button>
+    </div>
+    <pre id="display2"></pre>
+<script>
+    // MOUSEOVER/MOUSEOUT EVEN AND REMOVING EVENT WITH CONTROLLER ABORT
+    const controller= new AbortController();
+    const signal= controller.signal;
+    const btn1 = document.querySelector("#btn1");
+    const btn2= document.querySelector("#btn2")
+    function randomColor() {
+        return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+    }
+    btn1.addEventListener("mouseover", () => {
+        const newColor= randomColor();    
+        document.body.style.backgroundColor = newColor;
+        console.log(newColor)
+        btn1.style.backgroundColor= randomColor()
+    }, { signal });
+    btn1.addEventListener("mouseout", () => {
+        const newColor= randomColor();    
+        document.body.style.backgroundColor = newColor;
+        console.log(newColor)
+        btn1.style.backgroundColor= "rgb(121, 164, 23)"
+    }, { signal });
+    
+    //REMOVING EVENT
+    controller.abort();
+
+    // CHANGE BACKGROUND WITH CLICK EVENT
+    function randomNumb(number){
+        return Math.floor(Math.random()*(number+1))
+    }
+    function changeBackground(e) {
+        const rndCol= `rgb(${randomNumb(255)} ${randomNumb(255)} ${randomNumb(255)})`;
+        document.body.style.backgroundColor= rndCol;
+        e.currentTarget.style.backgroundColor= rndCol
+        console.log(rndCol)
+    }
+    btn2.addEventListener("click", changeBackground)       
+   
+    // REMOVING EVENT WITH REMOVEEVENTLISTENER()
+    btn2.removeEventListener("click", changeBackground)
+
+    // FOCUS AND BLUR 
+    window.addEventListener('focus', () => {
+        document.body.style.backgroundColor= "rgb(141 183 178)"
+    });
+    window.addEventListener('blur', () => {
+        document.body.style.backgroundColor= "rgb(171 14 199)"
+    });
+
+    const userInput= document.querySelector("#username");
+    const message= document.querySelector("#message")
+    userInput.addEventListener("focus", (e)=> {
+        message.innerText="please insert your user name"
+        message.style.color= "blue";
+    })
+    userInput.addEventListener("blur", ()=> {
+        if(userInput.value === ""){
+            message.innerText= "User Name is required"
+            message.style.color= "lightcoral"
+        } else {
+            message.textContent= " "
+        }
+    })
+
+    // EVENHANDLER PROPERTIES 
+    btn1.onclick = changeBackground;
+    btn2.onclick= alertMessage
+    function alertMessage(event){
+        console.log(event.timeStamp)
+        alert("Welcome Guest..!");
+    }
+
+    // EXTRA PROPERTIES OF EVENT OBJECTS
+    const textBox= document.getElementsByTagName("input")[1];
+    const output= document.getElementsByTagName("h3")[1]; 
+    textBox.onkeydown= displayTyped
+    function displayTyped(e){
+        output.textContent = `You pressed "${event.key}".`
+        output.style.color="white"
+    }
+
+    // PREVENTING EVENT DEFAULT BEHAVIOR
+    const form= document.querySelector("form");
+    const fname= document.querySelector("#fname");
+    const lname= document.querySelector("#lname");
+    const page= document.querySelector("#page");
+    form.addEventListener("submit", (e)=>{
+        if(fname.value === "" || lname.value=== ""){
+            e.preventDefault()
+            page.innerText="You need to fill both your names..!"
+        }
+    })
+    
+    // PERBEDAAN E.TARGET DG E.CURRENTTARGET
+    const parentDiv= document.querySelector("#parentDiv")
+    const childBtn= document.querySelector("#childBtn")
+    parentDiv.addEventListener("click", function(e){
+        console.log("DIV CLICKED")
+        console.log("01. target:", e.target)
+        console.log("02. currentTarget:", e.currentTarget)
+    });
+    childBtn.addEventListener("click", function(e){
+        console.log("BUTTON CLICKED")
+        console.log("03. target:", e.target)
+        console.log("04. currenTarget:", e.currentTarget)
+        event.stopPropagation()
+    })
+
+    // BUBBLING EVENT
+    const display= document.querySelector("pre");
+    function handleClick(e){
+        display.textContent += `You Clicked ${e.currentTarget.tagName} element\n`
+        // event.stopPropagation()
+    }
+    const container= document.querySelector("#container")
+    const btn3= document.querySelector("#btn3")
+    document.body.addEventListener("click", handleClick)
+    container.addEventListener("click", handleClick);
+    btn3.addEventListener("click", handleClick)
+    
+    const output2= document.querySelector("#display2")
+    const container2= document.querySelector("#container2")
+    const btnInside= document.querySelector("#btnInside") 
+    function objClick(e){
+        output2.textContent += `You clicked ${e.currentTarget.tagName} element\n` 
+        event.stopPropagation()
+    }
+    document.body.addEventListener("click", objClick, { capture : false });
+    container2.addEventListener("click", objClick, { capture : false });
+    btnInside.addEventListener("click", objClick, { capture : false });
+
+    // document.body.onclick= objClick;
+    // container2.onclick= objClick;
+    // btnInside.onclick= objClick;
+</script>    
+</body>
+</html>
+

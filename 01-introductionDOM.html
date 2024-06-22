@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to DOM</title>
+    <!--  
+    DOCUMENT OBJECT MODULE:
+    -antarmuka/"interface" pemrograman untuk document web.
+    -mempresentasikan halaman web sebagai sekumpulan objek.
+    -dapat dimanipulasi oleh bahasa program sehingga dapat berinteraksi dengan halaman tersebut.
+    _DOM sebagai Web API(apllication program interface)
+    Komponen DOM:
+    _Objek dokumen
+    _Element HTML: object yg mewakili halaman 
+    _Node: struktur/kerangka dasar dokumen.: element, teks, atrribut, 
+
+    FUNDAMENTAL DATA TYPES:
+    1. Document: objek root dari dokumen DOM. semua element dan node dalam dokumen adalah anak dari objek ini. cth: Property "OwnerDocument" mengembalikan dokumen tempat element itu berada.
+    2. Node: setiap objek yg berada dalam dokumen. 
+    contoh <p>, dan attribut "class" dari element tsb semuanya merupakan node.
+    3. Element: jenis node khusus yg dikembalikan oleh anggota DOM API.
+    cth manipulasi element: document.createElement() mengembalikan element baru dalam DOM.   
+    4. NodeList: daftar dari element, mirip dg array yang dikembalikan oleh method seperti document.querySelector(). kita bisa mengakses item di NodeList dengan menggunakan method "item.(index)" atau menggunakan syntax array: "list[index]."
+    cth: 
+    const nodeList= document.querySelectorAll("p");
+    const firstItem= nodeList.item(0); => sama dg: nodeList[0]
+    5. Attr/attribut
+    node khusus yg mengacu pada Attribut. 
+    contoh Method: "createAttribut()"-> mengembalikan obj referensi yang mengekspos interface khusus untuk attribut.
+    const attr= document.createAttribute("class");
+    attr.value= "my-class"
+    6. NamedNodeMap
+    mirip dengan array, tetapi item diakses berdasarkan nama atau indeks dan tidak memiliki urutan tertentu dalam daftar.
+    dapat ditambah dan dihapus dari NamedNodeMap menggunakan method: "item()" untuk mendapatkan item berdasarkan indeks.
+    Cth Akses:
+    const attributes= document.getElementId("myElement").attributes;
+    const firstAttr= attributes.item(0)=> attributes[0]  
+
+    DOM INTERFACES
+    _Merupakan sekumpulan properti dan method yang dapat digunakan oleh objek dalam DOM, objek tersebut dapat memiliki beberapa interface. interface dikelompokan dalam fungsionalitas tertentu.
+    cth: HTMLformElement dan HTMLElement
+    HTMLFormElement: 
+    "name": properti nama formulir.
+    "submit()": method untuk mengirimkan formulir
+    HTMLElement:
+    "className": nama kelas element.
+    "style": property ini mengacu pada gaya css dari element. 
+    "focus()" : 
+    const input= document.queryselector("input")
+    input.focus();
+    "blur": menghapus fokus dari element.
+
+    INTERFACES AND OBJECTS
+    Dalam DOM banyak object mengimpelemtasikan bbrp antar muka. Object tsb dapat mewarisi method dan properti dari beberapa interface.
+
+    CORE INTERFACE IN THE DOM
+    -->
+</head>
+<style>
+    .container {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
+    }
+    button {
+        width: 200px;
+    }   
+    .container2{
+        margin-top: 30px;
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
+    }
+    #add-child{
+        width: 100px;    
+    }
+    #remove-child{
+        width: 100px;
+    }
+    div.parent{
+        border: 1px solid black;
+        padding: 5px;
+        width: 100px;
+        height: 100px;
+    }
+    div.child{
+        border: 1px solid red;
+        margin: 10px;
+        padding: 5px;
+        width: 80px;
+        height: 60px;
+        box-sizing: border-box;
+    }
+</style>
+<body>
+    <!--Setting Text Content-->
+    <div class="container">
+        <textarea class="story"></textarea>
+        <button id="set-text" type="button">Set Text Content</button>
+        <button id="clear-text" type="button">Clear Text Content</button>
+    </div>
+
+    <div class="container2">
+        <div class="parent">Parent</div>
+        <button id="add-child" type="button">Add a Child</button>
+        <button id="remove-child" type="button">Remove Child</button>
+    </div>
+
+    <script>
+        const story= document.body.querySelector(".story");
+        const setText= document.body.querySelector("#set-text");
+        setText.addEventListener("click", ()=> { 
+            story.textContent= "it was a dark and stormy night..."
+        const clearText= document.body.querySelector("#clear-text");
+        clearText.addEventListener("click", ()=>{story.textContent= ""})    
+        })
+
+        const parent= document.body.querySelector(".parent");
+        const addChild= document.body.querySelector("#add-child")
+        addChild.addEventListener("click",()=> {
+            if(parent.childNodes.length > 1){
+                return;
+            }
+            const child= document.createElement("div")
+            child.classList.add("child");
+            child.textContent= "Child";
+            parent.appendChild(child)
+        })
+        const removeChild= document.body.querySelector("#remove-child");
+        removeChild.addEventListener("click", ()=>{
+            const child= document.body.querySelector(".child")
+            parent.removeChild(child)
+        })
+    </script>
+    
+
+    <script>
+        // window.onload= ()=> {
+        //     const heading= document.createElement("h1");
+        //     const headingText= document.createTextNode("Bid Head!");
+        //     heading.appendChild(headingText);
+        //     document.body.appendChild(heading);
+        // }
+        // document.body.insertAdjacentHTML("beforeend", "<h1>Hello, Word!</h1>");
+        // document.body.innerHTML += '<h1>Hello, World!</h1>';
+
+        // const table = document.getElementById('myTable');
+    </script>
+</body>
+</html>

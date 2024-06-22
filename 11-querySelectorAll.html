@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>document.querySelectorAll</title>
+    <!-- 
+    Digunakan untuk mendapatkan nodeList statis dari element2 dalam dokument yg sesuai dengan satu atau lebih selektor.
+    Syntax:
+    document.querySelectorall(selector)
+    Parameter merupakan selector CSS yang valid jika tidak akan syntaxError.
+    - Mengembalikan hasil berupa nodeList(object arrLike) yang notLive dan statis berupa kempulan objek yang sesuai dengan selector yang ditentukan.
+    
+    List method yang mengembalikan hasil nodeList dan live/dinamis(nodelist hasil akan berubah/diperbaharui secara otomatis. jika terjadi perubahan pada object document):
+    1. document.getElementsByClassName
+    2. document.getElementsByTagName
+    3. document.getElementsByName   
+    sedangkan yang tidak statis itu hanya document.querySelectorAll();
+    
+    contoh:
+    Mencari nodeList semua p element pada seluruh dokumen.
+    - const match= document.querySelectorAll("p")
+    Mencari nodeList semua div element dalam class apakah itu note ataupun alert
+    - const match= document.querySelectorAll("div.note, div.alert")    
+    Memilih <p> element dengan id= "test" pada semua div dengan class highlighted.
+    - const container= document.querySelector("#test")
+    - const match= container.querySelectorAll("div.highlighted > p")    
+    Memilih semua element <iframe> yang memiliki attribut "data-src"    
+    - const match = document.querySelectorAll("iframe[data-src]") 
+    memilih element2 <li> tertentu dialam element id="userlist" yang memiliki attrubute 'data-active dengan nilai 1'.
+    
+    Hasil dari match yang berupa nodeList merupakan object arrayLike, maka jika konversi object tersebut kedalam array dengan menggunakan array.from() atau spread operator (...) kita memberlakukan semua method array dalam js seperti (map, reduce, filter, dll).   
+
+    textContent dan innerText adalah dua properti yang sering digunakan untuk mengakses atau mengubah teks dalam elemen HTML, tetapi mereka memiliki beberapa perbedaan penting:
+
+    textContent:
+    Mengembalikan Semua Teks: textContent mengembalikan semua teks dalam elemen, termasuk teks dalam elemen yang tersembunyi dengan CSS.
+    Kinerja Lebih Cepat: textContent cenderung lebih cepat karena hanya mengembalikan teks tanpa memperhatikan rendering atau gaya CSS.
+    Tidak Peduli Gaya CSS: Tidak memperhatikan gaya CSS seperti display: none; atau visibility: hidden;.
+    innerText:
+    Mengembalikan Teks yang Terlihat: innerText hanya mengembalikan teks yang terlihat, artinya teks yang disembunyikan dengan display: none; atau visibility: hidden; tidak akan dikembalikan.
+    Memperhatikan Gaya CSS: innerText memperhatikan gaya CSS dan rendering. Karena itu, lebih lambat dibandingkan textContent karena perlu menghitung gaya dan tata letak.
+    Memperhatikan Tata Letak: innerText memperhatikan tata letak teks dan mengembalikan teks sesuai dengan bagaimana ia muncul di layar, termasuk spasi dan pengaturan baris.
+    -->
+</head>
+<body>
+    <div class="note">Catatan1</div>
+    <div class="alert">Peringatan</div>
+    <div class="note">Catatan2</div>
+    <div class="alert2">Buku</div>
+    <div class="alert">Peringatan2</div>
+
+    <div id="test">
+        <div class="highlighted">
+            <p>Katak</p>
+            <p>Kerbau</p>
+        </div>
+        <div class="highlighted"><p>Kuda</p></div>
+        <div>Beruang</div>
+        <div>Kelinci</div>
+        <div class="highlighted"><p>Kucing</p></div>
+    </div>
+    <div class="highlighted">Jerapah</div>
+    <button onclick="changeColor()">Hasil selector</button>
+</body>
+<script>
+    document.documentElement.innerHTML = `<pre>${document.documentElement.innerHTML.replace(
+    /</g,
+    "&lt;"
+)}</pre>`;
+    const match= document.querySelectorAll("div.note, div.alert");
+    const arr= [...match]
+    arr.forEach((el, i)=> {
+        console.log(`01. ${i}: ${el.textContent}`)
+    })
+        
+    function changeColor(){
+        const container= document.querySelector("#test");
+        const animalWithK= container.querySelectorAll("div.highlighted > p")
+        const arr= [...animalWithK]
+
+        arr.forEach((el, i)=> {
+            console.log(`${i}: ${el.textContent}`);
+            let text= arr[i].innerText;
+            text=== "Katak" || text=== "Kerbau" ? el.style.color= "blue" : el.style.color="red"       
+        })        
+    }
+</script>
+
+</html>

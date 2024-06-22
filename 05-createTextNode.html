@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Text Node</title>
+    <!-- 
+    - Digunakan untuk membuat sebuah node teks baru. node tersebut digunakan untuk menyimpan teks atau data dalam dokumen HTML, XML.
+    - Method ini digunakan untuk menghindari interpretasi karakter HTML khusus seperti "< >" "&" dll, dengan cara mengubahnya menjadi entitas HTML. 
+    "This is some <b>bold</> text." <bold> akan diperlakukan sebagai teks biasa dan tidak akan diinterpratiskan sebagai tag HTML untuk membuat bold.
+        
+    -document.body.appendChild-> menambahkan anak pada body dalam hal dibawah (div)
+    -sedangkan container.parentNode.appendChild(div) container sebagai id dari div berperan sebagai induk menambahkan anak div pada komponennya.
+    -->
+
+</head>
+<body>
+<div id="container"></div>
+<button onclick="addElement()">ADD</button>
+<button onclick="addTextNode('YES!');">YES!</button>
+<button onclick="addTextNode('NO!');">NO!</button>
+<button onclick="addTextNode('WE CAN!');">WE CAN!</button>
+<hr/>
+<p id="p1">First line of paragraph</p>
+
+<script>
+    function addElement(){
+        const container= document.getElementById("container")
+        const p= document.createElement("p")
+        const text= document.createTextNode("This is some text.")
+        p.appendChild(text);
+        p.innerHTML= "This is <strong>second</strong> paragraph."
+        p.setAttribute("id", "p2")
+        container.parentNode.appendChild(p)
+    }
+
+    function addTextNode(text){
+        const newText1= document.createTextNode(text);
+        const add1= document.getElementById("p2");
+        add1.appendChild(newText1)
+    }
+</script>    
+</body>
+</html>

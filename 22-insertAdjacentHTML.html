@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Adjacent HTML</title>
+    <!--  
+    Merupakan method interface element yang mengurai(parse) teks yang ditentukan sebagai HTML atau XML dan menyisipkan node yang dihasilkan ke dalam pohon DOM pada posisi yang ditentukan.
+    SYNTAX: 
+    insertAdjacentHTML(position, text)
+
+    PARAMETER POSITION: 
+    1. "beforebegin"
+        Menyisipkan konten sebelum elemen, hanya berlaku jika element berada dalam pohon DOM dan memiliki element induk.
+    2. "afterbegin"
+        Menyisipkan konten tepat didalam element, sebelum anak pertama-nya.
+    3. "beforeend"
+        Menyisipkan konten tepat setelah anak terakhirnya.
+    4. "afterend"      
+        Menyisipkan konten setelah element. hanya berlaku jika element memiliki element induk. 
+    html= <div id="myElement">Hello</div>    
+    <p>Before begin</p>
+    <div id="myElement">
+    <p>After begin</p>
+    Hello
+    <p>Before end</p>
+    </div>
+    <p>After end</p>    
+     
+    PERBEDAAN DG APPENDCHILD    
+    _Metode insertAdjacent lebih flexible karena dapat menyisipkan berbagai posisi dengan appendChild.    
+    _insertAdjacent digunakan untuk menyisipkan string HTML sedangkan appendChild untuk node DOM.
+    PENGGUNAAN MASING2:
+    -INSERTADJACENT: cocok digunakan jika ingin menyisipkan string HTML yg kompleks atau hanya ingin menyisipkan element pada posisi tertentu.(tidak hanya anak terakhir).
+    -APPENDCHILD: jika sudah memiliki element DOM yand dibuat dengan createElement() atau hanya menyisipkan element yang sudah ada dalam variabel js.
+
+
+    -->
+
+<style>
+    h1, h2{
+        background-color: black;
+        color: lime;
+    }
+    h1+ select, button{
+        padding: 6px 2px;
+        font-size: 18px;
+        border: 1px solid rgb(202, 200, 200);
+        border-radius: 5px;
+        background-color: skyblue;
+        box-shadow: inset 2px 2px 4px black;
+        font-weight: 700;
+        cursor: pointer;
+        +button{
+            padding: 7px;
+            font-size: 16px;
+            transition: all 0.2s ease-out;
+            margin-right: 5px;
+        }
+        + #insert{
+            margin-left: 50px;
+        }
+    }
+    button:hover{
+        transform: scale(1.1);
+    }
+    p{
+        font-size: 18px;
+    }
+    .new{
+        font-size: 24px;
+        padding: 3px;
+        border: 1px solid rgba(190, 187, 187, 0.6);
+        border-radius: 5px;
+        box-shadow: inset 2px 2px 4px white;
+        background-color: hotpink;
+    }
+</style>    
+</head>
+<body>
+    <h1>METHOD INSERT ADJACENT HTML</h1>
+    <select>
+        <option>beforebegin</option>
+        <option>afterbegin</option>
+        <option>beforeend</option>
+        <option>afterend</option>
+        <option>appendChild</option>
+    </select>
+    <button id="insert">Insert HTML</button>
+    <button id="reset">Reset</button>
+    
+    <h2>01. BEFORE BEGIN</h2>
+    <p>
+        Some text, with a <code id="subject01">code-formatted element</code> inside it.
+    </p>
+
+    <h2>02. AFTER BEGIN</h2>
+    <p>
+        Some text, with a <code id="subject02">code-formatted element</code> inside it.
+    </p>
+
+    <h2>03. BEFORE END</h2>
+    <p>
+        Some text, with a <code id="subject03">code-formatted element</code> inside it.
+    </p>
+
+    <h2>04. AFTER END</h2>
+    <p>
+        Some text, with a <code id="subject04">code-formatted element</code> inside it.
+    </p>
+
+    <h1>METHOD APPEND CHILD</h2>
+    <p>
+        Some text, with a <code id="subject05">code-formatted element</code> inside it.
+    </p>
+
+<script>
+    let p01= document.getElementById("subject01"),
+    p02= document.getElementById("subject02"),
+    p03= document.getElementById("subject03"),
+    p04= document.getElementById("subject04"),
+    p05= document.getElementById("subject05"),
+    insert= document.getElementById("insert"), 
+    reset= document.getElementById("reset"),
+    positionSelect= document.querySelector("select");
+
+    insert.addEventListener("click", e=> {
+        let selected = positionSelect.value;
+        const els= {
+            beforebegin: p01, 
+            afterbegin: p02, 
+            beforeend: p03, 
+            afterend: p04
+        }
+        if(els[selected]) {
+            els[selected].insertAdjacentHTML(selected, "<span class='new'>Inserted text</span> ")
+            return;
+        } else {
+            append();
+        }   
+    });
+    reset.addEventListener("click", e=>{
+        document.querySelectorAll(".new").forEach(el=>el.remove())
+    })
+    // bisa juga dengan cara ini: 
+    // reset.addEventListener("click", () => {
+    //     document.location.reload();
+    // });
+    
+    function append(){
+        let newSpan= document.createElement("span");
+        let newText= document.createTextNode(" Inserted Text")
+        newSpan.classList.add("new")
+        newSpan.appendChild(newText);
+        p05.appendChild(newSpan);
+    }
+</script>    
+</body>
+</html>

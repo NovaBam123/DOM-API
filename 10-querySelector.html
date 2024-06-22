@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>document.querySelector</title>
+    <!-- 
+    Method untuk mengakses element pertama dalam dokumen yang sesuai dengan berbagai selector atau grup selector baik itu dalam bentuk : 
+    id -> #
+    class -> .
+    tag(div)
+    attribut ->'input[type="text"]'
+    complex -> 1(div.my-class#my-id > p[data-info= "value"])''    
+    
+    Syntax :
+    document.querySelector(selector)
+    - Parameter selector harus merupakan string CSS yang valid. 
+    - jika selektor merupakan karakter yg bukan bagian CSS, dapat di-escape menggunakan karaketer backslash("\"), terutama dalam string literal.
+    - untuk mengakses semua element yg sesuai dalam document digunakan selectorAll.
+    - Pseudo-element CSS seperti ::before, ::after tidak valid karena ini bukan bagian dari DOM.
+    
+    Daftar return berupa nodeList(object array-Like) dalam selector:
+    _document.querySelectorAll()
+    _document.getElementsByTagName()
+    _document.getElemensByClassName()
+    _element.childNodes()
+    _element.querySelectorAll()
+    _element.getElementsByTagName()
+
+    untuk merubah suatu firstChild element kita gunakan replaceChild(newChild, oldChild);
+    jika tidak bermaksud untuk merubah element kita dapat gunakan: 
+    1. namaElement.firstChild.textContent = "textbaru"
+    2. namaElement.firstChild.data = textbaru.    
+    -->
+</head>
+<body>
+    <div id="foo/bar">01</div>
+    <div id="foo:bar">02</div>
+
+<script>
+    // console.log("#foo\bar");
+    // document.querySelector("#foo\bar")
+    // console.log("#foo\\bar");
+    console.log("#foo\\\\bar");
+    const div= document.querySelector("#foo\\/bar");
+    const div2= document.querySelector("#foo\\:bar")
+
+    const newEl= document.createElement("h1")
+    const newText= document.createTextNode("Welcome")
+    const newText2= document.createTextNode(" Guest")
+    newEl.appendChild(newText);
+    div.replaceChild(newEl, div.firstChild)   
+    
+    if(div2){
+        newEl.appendChild(newText2)
+        div2.replaceChild(newEl, div2.firstChild)
+    }else {
+        console.log("element not found")
+    }
+
+</script>    
+</body>
+</html>
